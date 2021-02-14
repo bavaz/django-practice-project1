@@ -1,52 +1,67 @@
+Basic definitions:
 Model: How to store stuff
 View: How website gets stuff stored in models and processes it for the user
 Template: View uses template to display contents (processed from model)
 
 Steps:
-] create a folder F
-] python3 -m venv F
-- Creates virtual env
-] Enter F/Lib
-] source activate
-- Activates virtual env
-] pip install django
-] django-admin startproject ff
+1. Create a folder ParentFolder
+2. Run:
+ python3 -m venv ParentFolder
+- Creates virtual environment
+3. Enter ParentFolder/Scripts and run:
+ source activate
+- Activates virtual environment
+4. Run:
+ pip install django
+ django-admin startproject ProjectFolder
 - Creates stem of project
-] Enter ff
-] python3 manage.py migrate
-- Changes made to models (we use Django default models)
-] python3 manage.py runserver (Ctrl+X to stop)
+5. Enter ProjectFolder
+ python3 manage.py migrate
+- Propagates changes made to models 
+(So in this step we want to do a dry run of setting up a server,
+so we use Django's default models)
+6. Run: 
+ python3 manage.py runserver 
 - Starts server. Check http://127.0.0.1:8000/
-] python manage.py startapp myapp
-] Add "myapp'," to ff/settings.py
-] Add os.path.join(BASE_DIR, 'templates') to DIRS in settings.py
-] Add models to myapp/models.py
-- Can use Meta subclass to order models
-] After making changes run from ff:
+- Use Ctrl+X to stop
+7. Run:
+ python manage.py startapp MyApp
+8. Add to INSTALLED_APPS in ProjectFolder/settings.py (Here django-practice-project1/djangoProj/djangoProj/settings.py): 
+    'MyApp',
+   Add to DIRS in TEMPLATES in same file:
+    os.path.join(BASE_DIR, 'MyApp/templates') 
+9. Add models to MyApp/models.py (Here django-practice-project1/djangoProj/blog/models.py)
+- Can use Meta subclass to order models (think of this as ordering your data entries)
+10. After making changes run the server again from ProjectFolder:
 python3 manage.py makemigrations
 python3 manage.py migrate
-] Register models in admin.py under myapp. Add following code to admin.py:
-from myapp.models import * 
-(Imports all models)
-admin.site.register(ModelName)
-(Displays model in control panel)
-] Run winpty python manage.py createsuperuser to create superuser (answer prompts)
-Run python manage.py runserver
-- Login into http://127.0.0.1:8000/admin to check if it works
+11. Register models in admin.py under MyApp. (Here django-practice-project1/djangoProj/blog/admin.py)
+    Do this by adding the following code to admin.py:
+        from MyApp.models import * 
+        #Imports all models
+        admin.site.register(ModelName)
+        #Displays model in control panel
+12. Run following command (in Windows) to create superuser (and answer the resulting prompts):
+ winpty python manage.py createsuperuser
+13. Run:
+ python manage.py runserver
+14. Login into http://127.0.0.1:8000/admin to check if it works
 - That's it for models
-] Create views.py, a file for our views in ff
-] In urls.py add following:
-from ff.views import viewFunc
-- In urlpatterns add following:
-path('', viewFunc.as_view(template_name="template.html"), name="viewFunc"),
-(This might not apply)
+15. Create view in the views.py file under MyApp.
+16. In urls.py file under ProjectFolder (django-practice-project1/djangoProj/djangoProj) add following:
+ from MyApp.views import getContextDataFunc
+ - In urlpatterns add following:
+ path('', getContextDataFunc, name="context_data"),
+ - You can give name any other reasonable value
 - End of view logic
-] Under ff create templates folder with file template.html
-- Create the template.html file
-- Django templates use DRY HTML called Django HTML
+17. Under MyApp (blog folder) create templates folder with file template.html
+- Create the template.html file (I created index.html, give yours an appropriate name)
+- Side note: Django templates use DRY HTML called Django HTML
+18. Now if you refresh the page/ start the server, your webpage should be running
 
+Additional notes:
 • To check the sqlite table, run sqlite3 command in console
-• Then to find tables in it, run 
+• Then to find tables in it, run: 
 .tables
-• Then to find data 
+• Then to find data:
 select * from tablename;
