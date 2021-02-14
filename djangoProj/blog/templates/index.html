@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            h1 {text-align: center;}
+        </style>
+        <title>Posts | Django Project</title>
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"
+        integrity="sha256-8B1OaG0zT7uYA572S2xOxWACq9NXYPQ+U5kHPV1bJN4="
+        crossorigin="anonymous" />
+    </head>
+    <body>
+        <h1>
+            <div class="title">Django Project Posts</div>
+            <div class="subtitle">Welcome to this sample site!</div>
+        </h1>
+        <div class="container">
+            {% for post in posts %}
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image">
+                        <img src="{{ post.image.url }}" alt="Placeholder image" 
+                        style="max-width: 250px; max-height: 250px;">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        <b>{{ post.title }}</b> | {{ post.description }}
+                        <br>
+                        <time datetime="{{ post.date }}">{{ post.date }}</time>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
